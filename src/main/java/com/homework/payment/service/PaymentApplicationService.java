@@ -38,6 +38,9 @@ public class PaymentApplicationService {
         initializeDataset();
     }
 
+    /**
+     * Method will read input file from program arguments or use initial input file
+     */
     public void initializeDataset() {
         String[] args = applicationArguments.getSourceArgs();
         if (!ArrayUtils.isEmpty(args)) {
@@ -53,6 +56,9 @@ public class PaymentApplicationService {
         waitForInput();
     }
 
+    /**
+     * Method for user additional input, after user types QUIT, than it closes the SpringApplication
+     */
     private void waitForInput() {
         Scanner input = new Scanner(System.in);
         String confirm;
@@ -67,6 +73,11 @@ public class PaymentApplicationService {
         SpringApplication.exit(applicationContext, () -> 0);
     }
 
+    /**
+     * Method will validate String input and if user makes mistake it will log an error message
+     * @param input String input in format ABC XXXXX where XXXXX is BigDecimal number
+     * @return Return the payment record only if it is valid
+     */
     private Optional<PaymentRecord> validatePaymentInputFromCmd(final String input) {
         final Pattern currencyPattern = Pattern.compile("[A-Z]{3}");
         final String[] data = input.split(INPUT_FILE_DELIMITER);
@@ -107,6 +118,11 @@ public class PaymentApplicationService {
         }
     }
 
+    /**
+     * Method for reading and parsing file rows.
+     * @param fileName filename with path on system
+     * @throws IOException if the file reader fail to read the file
+     */
     private void readFromInputFile(final String fileName) throws IOException {
         String line;
         BufferedReader bufReader = new BufferedReader(new FileReader(fileName));
@@ -117,6 +133,10 @@ public class PaymentApplicationService {
         bufReader.close();
     }
 
+    /**
+     * Method for print payment record from the repository
+     * @return Printed payment records with USD currency if available
+     */
     public String printPaymentsRecords() {
         return paymentRepository.printRecords();
     }

@@ -28,6 +28,9 @@ public class PaymentRepository {
         this.paymentRecords = paymentRecords;
     }
 
+    /**
+     * Add record to the map, if the currency is already in PaymentRepository, than the value is added to current record value
+     */
     public void addRecord(final PaymentRecord paymentRecord) {
         BigDecimal newAmount = paymentRecord.getAmount();
         if (paymentRecords.containsKey(paymentRecord.getCurrency())) {
@@ -36,6 +39,9 @@ public class PaymentRepository {
         paymentRecords.put(paymentRecord.getCurrency(), newAmount);
     }
 
+    /**
+     * @return Print records from the repository. If the currency have defined exchange rate with USD, than it will print the USD currency amount in brackets
+     */
     public String printRecords() {
         ExchangeRates exchangeRates = new ExchangeRates();
         Map<String, BigDecimal> exchangeRatesUsd = exchangeRates.getExchangeRateForUsd();
